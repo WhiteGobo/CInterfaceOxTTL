@@ -1,0 +1,21 @@
+@prefix ns1: <http://example.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ns1:ParisFact2 {
+    <http://example.org/location/Paris#this> ns1:hasPopulation 7000000 .
+}
+
+{
+    ns1:ParisFact1 a rdf:Graph ;
+        ns1:hasReference <http://www.britannica.com/>,
+            <http://www.brockhaus.de/>,
+            <http://www.wikipedia.org/> .
+
+    ns1:ParisFact2 a rdf:Graph ;
+        ns1:hasReference <http://www.wikipedia.org/> .
+}
+
+ns1:ParisFact1 {
+    <http://example.org/location/Paris#this> ns1:locatedIn <http://example.org/location/France#this> .
+}

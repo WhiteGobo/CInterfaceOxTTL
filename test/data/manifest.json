@@ -1,0 +1,35 @@
+{
+	"sequence": [
+		{
+			"name": "data01",
+			"desription": "",
+			"@type": "PositiveEntailment",
+			"premise": "data01-in.ttl",
+			"query": "data01-out.nq"
+		}, {
+			"name": "data03",
+			"desription": "",
+			"@type": "PositiveEntailment",
+			"premise": "data03-in.ttl",
+			"query": "data03-out.nq"
+		}, {
+			"name": "data04",
+			"desription": "",
+			"@type": "PositiveEntailment",
+			"premise": "data04-in.ttl",
+			"query": "data04-out.nq"
+		}, {
+			"name": "data05",
+			"desription": "",
+			"@type": "PositiveEntailment",
+			"premise": "data05-in.ttl",
+			"query": "data05-out.nq"
+		}, {
+			"name": "data27",
+			"desription": "",
+			"@type": ["PositiveEntailment", "DatasetTest"],
+			"premise": "data27-in.trig",
+			"query": "data27-out.nq"
+		}
+	]
+}
