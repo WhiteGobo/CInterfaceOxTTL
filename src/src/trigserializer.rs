@@ -36,6 +36,7 @@ impl TrigSerializer {
 
     pub fn finish(&mut self) -> Result<Vec<u8>, Error> {
         use std::mem::replace;
+        self.in_write_state();
         let writer = match replace(&mut self.writer, None) {
             None => {return Err(
                 Error::other("TriGSerializer in wrong state to finish."));
