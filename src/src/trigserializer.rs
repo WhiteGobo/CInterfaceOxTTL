@@ -10,21 +10,16 @@ pub struct TrigSerializer {
 }
 
 impl BNodeMap for &mut TrigSerializer {
-    fn get_bnode(self, key: &str) -> Option<BlankNode>
+    fn get_bnode(self, key: &str) -> BlankNode
     {
         let m = &mut self.bnodemap;
-        if m.contains_key(key){
-            match m.get(key){
-                Some(bnode) => Some(bnode.clone()),
-                None => None,
-            }
-        } else {
-            let bnode = BlankNode::default();
-            m.insert(key.to_owned(), bnode);
-            match m.get(key){
-                Some(bnode) => Some(bnode.clone()),
-                None => None
-            }
+        match m.get(key){
+            Some(bnode) => bnode.clone(),
+            None => {
+                let bnode = BlankNode::default();
+                m.insert(key.to_owned(), bnode.clone());
+                bnode
+            },
         }
     }
 }

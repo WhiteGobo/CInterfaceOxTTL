@@ -2,7 +2,7 @@ use oxrdf::{GraphNameRef, LiteralRef, NamedNodeRef, TermRef, NamedOrBlankNodeRef
 use std::ffi::{c_char, CStr};
 
 pub trait BNodeMap {
-    fn get_bnode(self, key: &str) -> Option<BlankNode>;
+    fn get_bnode(self, key: &str) -> BlankNode;
 }
 
 pub fn generate_IdentifiedNode(
@@ -24,10 +24,7 @@ pub fn generate_IdentifiedNode(
                 Err(_) => Err(()),
             }
         },
-        1 => match map.get_bnode(obj) {
-            Some(x) => Ok(x.into()),
-            None => Err(()),
-        },
+        1 => Ok(map.get_bnode(obj).into()),
         _ => Err(())
     }
 }
@@ -52,10 +49,7 @@ pub fn generate_Term(
                 Err(_) => Err(()),
             }
         },
-        1 => match map.get_bnode(obj) {
-            Some(x) => Ok(x.into()),
-            None => Err(()),
-        },
+        1 => Ok(map.get_bnode(obj).into()),
         2 => {
             if value_suffix.is_null(){
                 Ok(Literal::new_simple_literal(obj).into())
@@ -121,10 +115,7 @@ pub fn generate_Graph<'a>(
                 Err(_) => Err(()),
             }
         },
-        1 => match map.get_bnode(obj) {
-            Some(x) => Ok(x.into()),
-            None => Err(()),
-        },
+        1 => Ok(map.get_bnode(obj).into()),
         _ => Err(())
     }
 }

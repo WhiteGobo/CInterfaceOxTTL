@@ -19,3 +19,5 @@ target_sources(CInterfaceOxTTL INTERFACE
 	FILES
 	include/CInterfaceOxTTL.h
 )
+
+corrosion_install(TARGETS CInterfaceOxTTL EXPORT CInterfaceOxTTLtargets)
