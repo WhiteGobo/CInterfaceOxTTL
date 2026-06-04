@@ -123,7 +123,10 @@ pub extern "C" fn TTL_SER_finish(config: *mut TTLSerializer) -> *mut c_uchar
             let mut cfg = Box::from_raw(config);
             match unsafe{cfg.finish()} {
                 Ok(mut x) => copy2cstring(x.as_mut_ptr()), //allocated with C's malloc
-                Err(_) => ptr::null_mut(),
+                Err(e) => {
+                    eprintln!("turtle parser finish failed: {:?}", e);
+                    ptr::null_mut()
+                },
             }
         }
     } else {
@@ -149,17 +152,17 @@ pub extern "C" fn TTL_SER_add(
             subject, subject_type, &mut (*serializer))
         {
             Ok(x) => x,
-            Err(_) => {return -2;},
+            Err(_) => {eprintln!("Failed to translate subject"); return -2;},
         };
         let pred = match generate_IRI(predicate) {
             Ok(x) => x,
-            Err(_) => {return -3;},
+            Err(_) => {eprintln!("Failed to translate predicate");return -3;},
         };
         let obj = match generate_Term(
             object, object_suffix, object_type, &mut (*serializer))
         {
             Ok(x) => x,
-            Err(_) => {return -4;},
+            Err(_) => {eprintln!("Failed to translate object"); return -4;},
         };
         (*serializer).serialize_triple(subj.as_ref(), pred, obj.as_ref());
     }
@@ -265,7 +268,10 @@ pub extern "C" fn Trig_SER_finish(config: *mut TrigSerializer
             let mut cfg = Box::from_raw(config);
             match unsafe{cfg.finish()} {
                 Ok(mut x) => copy2cstring(x.as_mut_ptr()), //allocated with C's malloc
-                Err(_) => ptr::null_mut(),
+                Err(e) => {
+                    eprintln!("trig parser finish failed: {:?}", e);
+                    ptr::null_mut()
+                },
             }
         }
     } else {

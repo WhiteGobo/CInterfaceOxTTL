@@ -2,6 +2,7 @@ use oxttl::turtle::{WriterTurtleSerializer, TurtleSerializer};
 use std::collections::HashMap;
 use oxrdf::{GraphNameRef, LiteralRef, NamedNodeRef, TermRef, NamedOrBlankNodeRef, BlankNodeRef, BlankNode};
 use crate::genterms::BNodeMap;
+use std::io::Error;
 
 pub struct TTLSerializer {
     pub config: Option<TurtleSerializer>,
@@ -33,15 +34,17 @@ impl TTLSerializer {
         }
     }
 
-    pub fn finish(&mut self) -> Result<Vec<u8>, ()> {
+    pub fn finish(&mut self) -> Result<Vec<u8>, Error> {
         use std::mem::replace;
         let writer = match replace(&mut self.writer, None) {
-            None => {return Err(());},
+            None => {return Err(
+                Error::other("TTLSerializer in wrong state to finish."));
+            },
             Some(w) => w,
         };
         let mut ret = match writer.finish() {
             Ok(x) => x,
-            Err(_) => {return Err(());},
+            Err(e) => {return Err(e);},
         };
         ret.push(0); //ensure trailing '\0'
         Ok(ret)
