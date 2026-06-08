@@ -70,8 +70,8 @@ pub extern "C" fn parse_ttl(
     for triple in reader {
         let triple: Triple = match triple {
             Ok(x) => x,
-            Err(_e) => {
-                //print_parse_error(e);
+            Err(e) => {
+                eprintln!("Error during Turtle parsing: {}", e);
                 return -3;
             },
         };
@@ -80,8 +80,8 @@ pub extern "C" fn parse_ttl(
 
         match call_hook(quad, hook, hook_data){
             Ok(()) => {},
-            Err(_e) => {
-                //eprintln!("{}", e);
+            Err(e) => {
+                eprintln!("{}", e);
                 return -1;
             },
         }
