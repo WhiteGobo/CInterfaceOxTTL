@@ -5,3 +5,4 @@ mod trigparser;
 mod trigserializer;
 mod genterms;
 mod callhook;
+pub mod error;

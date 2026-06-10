@@ -152,17 +152,17 @@ pub extern "C" fn TTL_SER_add(
             subject, subject_type, &mut (*serializer))
         {
             Ok(x) => x,
-            Err(_) => {eprintln!("Failed to translate subject"); return -2;},
+            Err(e) => {eprintln!("Failed to translate subject {}", e); return -2;},
         };
         let pred = match generate_IRI(predicate) {
             Ok(x) => x,
-            Err(_) => {eprintln!("Failed to translate predicate");return -3;},
+            Err(e) => {eprintln!("Failed to translate predicate {}", e);return -3;},
         };
         let obj = match generate_Term(
             object, object_suffix, object_type, &mut (*serializer))
         {
             Ok(x) => x,
-            Err(_) => {eprintln!("Failed to translate object"); return -4;},
+            Err(e) => {eprintln!("Failed to translate object {}", e); return -4;},
         };
         (*serializer).serialize_triple(subj.as_ref(), pred, obj.as_ref());
     }
