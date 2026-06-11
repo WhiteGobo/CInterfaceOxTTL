@@ -122,7 +122,10 @@ pub extern "C" fn TTL_SER_finish(config: *mut TTLSerializer) -> *mut c_uchar
         unsafe {
             let mut cfg = Box::from_raw(config);
             match unsafe{cfg.finish()} {
-                Ok(mut x) => copy2cstring(x.as_mut_ptr()), //allocated with C's malloc
+                Ok(mut x) => {
+                    x.extend_from_slice(b"\0");
+                    copy2cstring(x.as_mut_ptr()) //allocated with C's malloc
+                },
                 Err(e) => {
                     eprintln!("turtle parser finish failed: {:?}", e);
                     ptr::null_mut()
@@ -267,7 +270,10 @@ pub extern "C" fn Trig_SER_finish(config: *mut TrigSerializer
         unsafe {
             let mut cfg = Box::from_raw(config);
             match unsafe{cfg.finish()} {
-                Ok(mut x) => copy2cstring(x.as_mut_ptr()), //allocated with C's malloc
+                Ok(mut x) => {
+                    x.extend_from_slice(b"\0");
+                    copy2cstring(x.as_mut_ptr()) //allocated with C's malloc
+                },
                 Err(e) => {
                     eprintln!("trig parser finish failed: {:?}", e);
                     ptr::null_mut()
